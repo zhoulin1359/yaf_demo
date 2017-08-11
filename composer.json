@@ -1,0 +1,7 @@
+{
+    "require": {
+        "catfan/Medoo": "^1.4",
+        "ezyang/htmlpurifier": "^4.9",
+        "wixel/gump": "^1.5"
+    }
+}

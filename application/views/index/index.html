@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- 使用 viewport meta 标签在手机浏览器上控制布局 -->
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+    <!-- 通过快捷方式打开时全屏显示 -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <!-- 隐藏状态栏 -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="blank" />
+    <title>OMS首页</title>
+</head>
+<body>
+
+
+
+
+<script>
+    (function(){
+        if( localStorage.getItem('grouppermission') == null ){
+            location.href = 'View/login/login.html'
+        }else{
+            location.href = 'View/index/index.html?index=0'
+        }
+
+    })()
+
+</script>
+</body>
+</html>
