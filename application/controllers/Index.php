@@ -12,18 +12,33 @@ class IndexController extends Yaf\Controller_Abstract
     //默认Action
     public function indexAction()
     {
-        jsonResponse($_SERVER, '1');
+        var_dump(Yaf\Dispatcher::getInstance()->getResponse());die();
+        jsonResponse($this->getResponse(),$_SERVER, '1');
     }
 
+    public function phpInfoAction(){
+        phpinfo();
+    }
 
+    /**
+     * 自动加载
+     * 区分全局类和本地类
+     * 全局类在php.ini里配置的
+     * 本地类用registerLocalNamespace()注册
+     */
     public function autoloadAction()
     {
-        //jsonResponse([Test_Test::hello()]);
-       // jsonResponse([(new Jeemu_Name_Home())->getHome()]);
-        var_dump(Yaf\Dispatcher::returnResponse());
-
-       // $response->setBody("Hello")->setBody(" World", "footer");
+        jsonResponse($this->getResponse(),[Test_Test::hello()]);
     }
+
+    /**
+     * 获取自定义配置项
+     */
+    public function confAction(){
+        jsonResponse($this->getResponse(),[conf('redis'),conf('as')]);
+        jsonResponse($this->getResponse(),[conf('11'),conf('as')]);
+    }
+
 
 
     public function responseAction(){

@@ -15,12 +15,21 @@
 function conf(string $conf)
 {
     $conf = explode('.', $conf);
-    $confArr = Yaf_Registry::get('config');
+    if (empty($conf)){
+        return false;
+    }
+    $confArr = Yaf\Registry::get('config');
     foreach ($conf as $value) {
         if (empty($value)) {
             break;
         }
-        $confArr = $confArr[$value];
+        if (isset($confArr[$value])){
+            $confArr = $confArr[$value];
+        }else{
+            $confArr = false;
+            break;
+        }
+
     }
     return $confArr;
 }
@@ -31,7 +40,7 @@ function conf(string $conf)
  * @param int $status
  * @param string $info
  */
-function jsonResponse(array $data = [], int $status = 0, string $info = 'success')
+function jsonResponse($response,array $data = [], int $status = 1, string $info = 'success')
 {
     //header('Content-Type:application/json; charset=utf-8');
    /* Yaf\Response_Abstract::setHeader('Content-Type:application/json; charset=utf-8');
@@ -39,9 +48,10 @@ function jsonResponse(array $data = [], int $status = 0, string $info = 'success
     Yaf\Response_Abstract::response();*/
     //echo(json_encode(array('status' => $status, 'info' => $info, 'data' => $data)));
     //return null;
-    $response = new Yaf_Response_Http();
+    //$response = new Yaf_Response_Http();
     $response -> setHeader('Content-Type','application/json;charset=utf-8');
     $response -> setBody(json_encode(array('status' => $status, 'info' => $info, 'data' => $data)));
+    return;
 }
 
 /**

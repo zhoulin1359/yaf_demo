@@ -17,7 +17,16 @@ class Bootstrap extends Yaf\Bootstrap_Abstract
     public function _initSetting(){
         Yaf\Dispatcher::getInstance()->disableView();   //关闭自动调用引擎render方法；
 
-        Yaf\Loader::getInstance()->registerLocalNamespace(array("Foo", "Bar"));  //注册本地类前缀
+        Yaf\Loader::getInstance()->registerLocalNamespace(array("Test", "Bar"));  //注册本地类前缀
+    }
+
+    /**
+     * 初始化路由
+     */
+    public function _initRouter(Yaf\Dispatcher $dispatcher){
+        var_dump($dispatcher->getRouter());return;
+        //$route = new Yaf\Route_Simple("m", "controller", "act");
+        //Yaf\Router::getInstance()->addRoute("simple", $route);
     }
 
     /**
@@ -48,7 +57,7 @@ class Bootstrap extends Yaf\Bootstrap_Abstract
     public function _initConfig(){
         $configFile = APP_PATH.'/conf/config.php';
         if (is_file($configFile)){
-            $config = file_get_contents($configFile);
+            $config = include($configFile);
             Yaf\Registry::set('config',$config);
         }
     }
