@@ -12,7 +12,6 @@ class IndexController extends Yaf\Controller_Abstract
     //默认Action
     public function indexAction()
     {
-        var_dump(Yaf\Dispatcher::getInstance()->getResponse());die();
         jsonResponse($this->getResponse(),$_SERVER, '1');
     }
 

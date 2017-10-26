@@ -24,7 +24,7 @@ class Bootstrap extends Yaf\Bootstrap_Abstract
      * 初始化路由
      */
     public function _initRouter(Yaf\Dispatcher $dispatcher){
-        var_dump($dispatcher->getRouter());return;
+       // var_dump($dispatcher->getRouter());return;
         //$route = new Yaf\Route_Simple("m", "controller", "act");
         //Yaf\Router::getInstance()->addRoute("simple", $route);
     }

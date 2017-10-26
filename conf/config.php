@@ -15,4 +15,22 @@ return array(
         'auth'  =>'',
         'select'=>1
     ),
+    'db'=>[
+        // required
+        'database_type' => 'mysql',
+        'database_name' => 'history_base',
+        'server' => 'localhost',
+        'username' => 'root',
+        'password' => '1234',
+
+        // [optional]
+        'charset' => 'utf8',
+        'port' => 3306,
+
+        // [optional] Table prefix
+        'prefix' => '',
+
+        // [optional] Enable logging (Logging is disabled by default for better performance)
+        'logging' => true
+    ]
 );
