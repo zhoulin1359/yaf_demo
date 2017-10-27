@@ -18,7 +18,7 @@ return array(
     'db'=>[
         // required
         'database_type' => 'mysql',
-        'database_name' => 'history_base',
+        'database_name' => 'history_1',
         'server' => 'localhost',
         'username' => 'root',
         'password' => '1234',
