@@ -42,4 +42,11 @@ class DbController extends Yaf\Controller_Abstract
         var_dump($charArr);
         //jsonResponse($this->getResponse(), [$charLenArr, $charLenStrArr]);
     }
+
+    public function redisAction(){
+        //(new RedisModel())->setKeyIncr();
+        $cache = new RedisCacheModel();
+        var_dump($cache->setCache('1',[23466]));
+        var_dump($cache->getCache('1'));
+    }
 }
