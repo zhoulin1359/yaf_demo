@@ -11,9 +11,9 @@ class Db_Base
     protected $tableName;
     protected $dbObj;
 
-    public function __construct()
+    public function __construct($conf = 'db')
     {
-        $this->dbObj = Db_Conn::getInstance();
+        $this->dbObj = Db_Conn::getInstance($conf);
         $this->getTableName();
     }
 

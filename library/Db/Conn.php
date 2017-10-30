@@ -10,22 +10,29 @@ class Db_Conn
 {
 
 
-    protected static $handle;
+    private static $handle;
+    private static $db;
 
 
-
-    public static function getInstance()
+    public static function getInstance($db)
     {
-        if (self::$handle == null) {
-           new self();
+        $dbConf = conf($db);
+        if ($dbConf){
+            die('db conf error!');
         }
-        return self::$handle;
+        self::$db = $db;
+        if (isset(self::$handle[$db])){
+            return self::$handle[$db];
+        }else{
+            new self($dbConf);
+            return self::$handle[$db];
+        }
     }
 
 
-    private function __construct()
+    private function __construct($dbConf)
     {
-        self::$handle = new \Medoo\Medoo(conf('db'));
+        self::$handle[self::$db] = new \Medoo\Medoo($dbConf);
         //$this->getTableName();
     }
 
