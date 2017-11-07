@@ -37,8 +37,25 @@ class RedisModel extends Db_RedisBase
     }
 
 
+    public function addNum($redisKey){
+        $check = $this->handle->setnx(md5($redisKey),1);
+        if ($check){
+            $this->handle->set(uniqid().randStr(),1,86400);
+           // $this->handle->set(md5($redisKey),1,86400);
+        }
+    }
+
+
     public function setKeyIncr(){
         $this->handle->Incr(2);
+    }
+
+
+    public function autoInc(){
+        $num = $this->handle->incrby(1,-1);
+        if ($num == 0){
+            $this->handle->incrBy(1,3000);
+        }
     }
 
 }
