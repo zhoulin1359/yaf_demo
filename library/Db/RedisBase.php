@@ -12,9 +12,9 @@ class Db_RedisBase
     protected $redisKey;
 
     public $handle;
-    public function __construct($conf = 'redis')
+    public function __construct()
     {
-        $this->handle = Db_RedisConn::getInstance($conf);
+        $this->handle = Db_RedisConn::getInstance();
     }
 
 }

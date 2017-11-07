@@ -11,9 +11,9 @@ class Db_Base
     protected $tableName;
     protected $dbObj;
 
-    public function __construct($conf = 'db')
+    public function __construct()
     {
-        $this->dbObj = Db_Conn::getInstance($conf);
+        $this->dbObj = Db_MysqlConn::getInstance();
         $this->getTableName();
     }
 

@@ -6,34 +6,29 @@
  * Date: 2017/10/26
  * Time: 23:26
  */
-class Db_Conn
+abstract class Db_Conn
 {
 
 
-    private static $handle;
-    private static $db;
+    protected static $handle;
 
 
-    public static function getInstance($db)
+    public static function getInstance()
     {
-        $dbConf = conf($db);
-        if ($dbConf){
-            die('db conf error!');
+        if (empty(self::$handle[get_called_class()])) {
+            new static();
         }
-        self::$db = $db;
-        if (isset(self::$handle[$db])){
-            return self::$handle[$db];
-        }else{
-            new self($dbConf);
-            return self::$handle[$db];
-        }
+        return self::$handle[get_called_class()];
     }
 
 
-    private function __construct($dbConf)
+    protected function __construct()
     {
-        self::$handle[self::$db] = new \Medoo\Medoo($dbConf);
-        //$this->getTableName();
+        self::$handle[static::class] = static::init(static::getConn());
     }
+
+    abstract protected function init($conf);
+
+    abstract  protected function getConn();
 
 }
