@@ -24,9 +24,16 @@ class Bootstrap extends Yaf\Bootstrap_Abstract
      * 初始化路由
      */
     public function _initRouter(Yaf\Dispatcher $dispatcher){
-       // var_dump($dispatcher->getRouter());return;
-        //$route = new Yaf\Route_Simple("m", "controller", "act");
-        //Yaf\Router::getInstance()->addRoute("simple", $route);
+        $router =  $dispatcher::getInstance()->getRouter();
+        $routeConf = [
+            'simple'=>[
+                'type'=>'simple',
+                'controller'=>'c',
+                'module'=>'m',
+                'action'=>'a'
+            ]
+        ];
+        $router->addConfig($routeConf);
     }
 
     /**
@@ -35,7 +42,7 @@ class Bootstrap extends Yaf\Bootstrap_Abstract
     public function _initAutoload(){
         Yaf\loader::import(APP_PATH.'/vendor/autoload.php'); //composer
         Yaf\loader::import(APP_PATH.'/bootstrap/common.php'); //自定义方法
-       spl_autoload_register('Bootstrap::userAutoload');
+       //spl_autoload_register('Bootstrap::userAutoload');
     }
 
     /**

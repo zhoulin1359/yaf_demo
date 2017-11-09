@@ -12,6 +12,8 @@ class IndexController extends Yaf\Controller_Abstract
     //默认Action
     public function indexAction()
     {
+       // die;
+        //$route = new Yaf\Route_Simple("m", "controller", "act");
         jsonResponse($this->getResponse(),$_SERVER, '1');
     }
 
