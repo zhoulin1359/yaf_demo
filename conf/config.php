@@ -12,13 +12,13 @@ return array(
     'redis'=>array(
         'host'  =>'127.0.0.1',
         'port'  =>6379,
-        'auth'  =>'',
+        'auth'  =>'123456',
         'select'=>1
     ),
     'db'=>[
         // required
         'database_type' => 'mysql',
-        'database_name' => 'history_base',
+        'database_name' => 'history_1',
         'server' => 'localhost',
         'username' => 'root',
         'password' => '1234',

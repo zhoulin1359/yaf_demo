@@ -17,7 +17,7 @@ class Bootstrap extends Yaf\Bootstrap_Abstract
     public function _initSetting(){
         Yaf\Dispatcher::getInstance()->disableView();   //关闭自动调用引擎render方法；
 
-        Yaf\Loader::getInstance()->registerLocalNamespace(array("Test", "Bar"));  //注册本地类前缀
+        Yaf\Loader::getInstance()->registerLocalNamespace(array("Db", "Bar"));  //注册本地类前缀
     }
 
     /**
