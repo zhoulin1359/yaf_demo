@@ -39,9 +39,9 @@ class DbController extends Yaf\Controller_Abstract
             }
         }
 
-       // var_dump($charArr);
-        $redis = new RedisCacheModel();
-        var_dump($redis->setCache(1,2));
+        var_dump($charArr);
+        //$redis = new RedisCacheModel();
+        //var_dump($redis->setCache(1,2));
         //jsonResponse($this->getResponse(), [$charLenArr, $charLenStrArr]);
     }
 

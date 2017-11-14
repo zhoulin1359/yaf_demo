@@ -1,5 +1,11 @@
 {
-    "require": {
-        "catfan/Medoo": "^1.4"
+  "require": {
+    "catfan/Medoo": "^1.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "Jeemu\\": "jeemu/log/src",
+      "Jeemu\\Log\\": "jeemu/log/src"
     }
+  }
 }
