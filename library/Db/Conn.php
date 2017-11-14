@@ -12,19 +12,17 @@ abstract class Db_Conn
 
     protected static $handle;
 
-
     public static function getInstance()
     {
-        if (empty(self::$handle[get_called_class()])) {
+        if (empty(self::$handle)) {
             new static();
         }
-        return self::$handle[get_called_class()];
+        return self::$handle;
     }
-
 
     protected function __construct()
     {
-        self::$handle[static::class] = static::init(static::getConn());
+        self::$handle = static::init(static::getConn());
     }
 
     abstract protected function init($conf);

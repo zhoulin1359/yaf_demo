@@ -8,6 +8,8 @@
  */
 class Db_MysqlConn extends Db_Conn
 {
+
+
     protected function getConn()
     {
         return conf('db');
