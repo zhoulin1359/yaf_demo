@@ -17,6 +17,7 @@ class Bootstrap extends Yaf\Bootstrap_Abstract
     public function _initSetting()
     {
         Yaf\Dispatcher::getInstance()->disableView();   //关闭自动调用引擎render方法；
+        Yaf\Dispatcher::getInstance()->returnResponse(true);   //对象在分发完成以后不会自动输出给请求端, 而是交给程序员自己控制输出
 
         Yaf\Loader::getInstance()->registerLocalNamespace(array("Db", "Bar"));  //注册本地类前缀
     }
@@ -75,17 +76,21 @@ class Bootstrap extends Yaf\Bootstrap_Abstract
     }
 
 
-    public function _initErrorHandle(Yaf\Dispatcher $dispatcher)
+    public function _initErrorHandle()
     {
-        $dispatcher::getInstance()->throwException(true);
-        set_error_handler(function ($errNo, $errStr, $errFile, $errLine) {
-            Jeemu\Log::getInstance()->write('捕捉异常:'.$errNo.'|'.$errStr.'|'.$errFile.'|'.$errLine,'ERROR');
-            echo(2);
-        });
-        set_exception_handler(function ($ex){
-            Jeemu\Log::getInstance()->write('捕捉异常:'.var_export($ex,true),'ERROR');
-            echo(1112);
-        });
+        if (!conf('debug')) {
+            set_error_handler(function ($errNo, $errStr, $errFile, $errLine) {
+                Jeemu\Log::getInstance()->write('发生错误:' . $errNo . '|' . $errStr . '|' . $errFile . '|' . $errLine, 'ERROR');
+                jsonResponse([], 404, '啊!!!发现了一个bug');
+            });
+            set_exception_handler(function ($ex) {
+                Jeemu\Log::getInstance()->write('捕捉异常:' . var_export($ex, true), 'ERROR');
+                $info = '啊!!!发现了一个bug';
+                jsonResponse([], 404, $info);
+            });
+
+        }
+
     }
 
 }

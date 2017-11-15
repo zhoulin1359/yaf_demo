@@ -15,7 +15,7 @@
 function conf(string $conf)
 {
     $conf = explode('.', $conf);
-    if (empty($conf)){
+    if (empty($conf)) {
         return false;
     }
     $confArr = Yaf\Registry::get('config');
@@ -23,9 +23,9 @@ function conf(string $conf)
         if (empty($value)) {
             break;
         }
-        if (isset($confArr[$value])){
+        if (isset($confArr[$value])) {
             $confArr = $confArr[$value];
-        }else{
+        } else {
             $confArr = false;
             break;
         }
@@ -40,18 +40,36 @@ function conf(string $conf)
  * @param int $status
  * @param string $info
  */
-function jsonResponse($response,array $data = [], int $status = 1, string $info = 'success')
+function jsonResponse(array $data = [], int $status = 1, string $info = 'success', Yaf\Response_Abstract $response = null)
 {
-    //header('Content-Type:application/json; charset=utf-8');
-   /* Yaf\Response_Abstract::setHeader('Content-Type:application/json; charset=utf-8');
-    Yaf\Response_Abstract::setBody(json_encode(array('status' => $status, 'info' => $info, 'data' => $data)));
-    Yaf\Response_Abstract::response();*/
-    //echo(json_encode(array('status' => $status, 'info' => $info, 'data' => $data)));
-    //return null;
-    //$response = new Yaf_Response_Http();
-    $response -> setHeader('Content-Type','application/json;charset=utf-8');
-    $response -> setBody(json_encode(array('status' => $status, 'info' => $info, 'data' => $data)));
-    return;
+    /*  var_dump($response);
+      var_dump(new Yaf\Response\Http());*/
+    if (empty($response)) {
+        /* $response = new class() extends Yaf\Response_Abstract
+         {
+             public $_header = 'Content-Type:application/json;charset=utf-8';
+             public $_body = 'Content-Type:application/json;charset=utf-8';
+         };*/
+        $response = new Yaf\Response\Http();
+        //$response = (new BaseController())->getResponse();
+    }
+    $response->setHeader('Content-Type', 'application/json;charset=utf-8');
+    $response->clearBody();
+    $callback = Yaf\Dispatcher::getInstance()->getRequest()->getQuery('callback');
+    if ($callback) {
+        $response->setBody($callback . '(' . json_encode(array('status' => $status, 'info' => $info, 'data' => $data)) . ')');
+    } else {
+        $response->setBody(json_encode(array('status' => $status, 'info' => $info, 'data' => $data)));
+    }
+
+    $response->response();
+    // var_dump($response);
+   //return;
+}
+
+class httpResponse extends Yaf\Response_Abstract
+{
+    public $_header = 'Content-Type:application/json;charset=utf-8';
 }
 
 /**
