@@ -62,7 +62,7 @@ function jsonResponse(array $data = [], int $status = 1, string $info = 'success
         $response->setBody(json_encode(array('status' => $status, 'info' => $info, 'data' => $data)));
     }
 
-    $response->response();
+    $response->response();//die;
     // var_dump($response);
    //return;
 }

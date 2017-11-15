@@ -15,7 +15,7 @@ class IndexController extends Yaf\Controller_Abstract
         throw new ErrorException('sss',1);
        // die;
         //$route = new Yaf\Route_Simple("m", "controller", "act");
-        jsonResponse($this->getResponse(),$_SERVER, '1');
+        //jsonResponse($_SERVER);
     }
 
     public function phpInfoAction(){

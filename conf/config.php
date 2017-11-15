@@ -35,5 +35,5 @@ return array(
         'logging' => true
     ],
     //开发模式
-    'debug' => true
+    'debug' => false
 );

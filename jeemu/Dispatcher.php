@@ -44,7 +44,6 @@ class Dispatcher
         if (empty(self::$obj[__FUNCTION__])) {
             self::$obj[__FUNCTION__] = Db\Redis::getObj();
         }
-        var_export(self::$obj[__FUNCTION__] -> select(1));
         return self::$obj[__FUNCTION__];
     }
 
