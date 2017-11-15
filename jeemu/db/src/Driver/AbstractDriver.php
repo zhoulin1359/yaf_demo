@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 /**
  * Created by PhpStorm.
  * User: JeemuZhou
@@ -10,6 +10,11 @@ declare(strict_types=1);
 namespace Jeemu\Db;
 abstract class AbstractDriver
 {
+    public static function getObj()
+    {
+        return static::conn(static::getConf());
+    }
+
     abstract protected function conn(array $conf);
 
     abstract protected function getConf();

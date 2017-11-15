@@ -4,10 +4,16 @@
   },
   "autoload": {
     "psr-4": {
-      "Jeemu\\": "jeemu/log/src",
+      "Jeemu\\": [
+        "jeemu",
+        "jeemu/log/src"
+      ],
       "Jeemu\\Log\\": "jeemu/log/src",
-
-      "Jeemu\\Test\\": ["jeemu/test/src","jeemu/test/src/Obj"]
+      "Jeemu\\Test\\": [
+        "jeemu/test/src",
+        "jeemu/test/src/Obj"
+      ],
+      "Jeemu\\Db\\": "jeemu/db/src/Driver"
     }
   }
 }

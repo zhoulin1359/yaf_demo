@@ -23,7 +23,7 @@ class Mysql extends AbstractDriver
 
     public function getConf(): array
     {
-        return conf('mysql');
+        return conf('db');
         // TODO: Implement getConf() method.
     }
 }

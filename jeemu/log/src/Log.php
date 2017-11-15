@@ -12,6 +12,7 @@ namespace Jeemu;
 use Jeemu\Log\Handle\AbstractHandler;
 use Jeemu\Log\Handle\ErrLog;
 use Jeemu\Log\Handle\File;
+use Jeemu\Log\Handle\Redis;
 
 class Log
 {
@@ -33,7 +34,7 @@ class Log
     private $driveHandle;
 
 
-    private function __construct(AbstractHandler $logDriver)
+    public function __construct(AbstractHandler $logDriver)
     {
         $this->driveHandle = $logDriver;
     }
@@ -42,7 +43,7 @@ class Log
     public static function getInstance(string $path = './runtime', string $type = 'date')
     {
         if (empty(self::$handle)) {
-            self::$handle = new self(new ErrLog($path.self::getPath($type)));
+            self::$handle = new self(new Redis($path.self::getPath($type)));
         }
         return self::$handle;
     }

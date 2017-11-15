@@ -69,4 +69,9 @@ class DbController extends Yaf\Controller_Abstract
         jsonResponse(range(1,20),1,'22');
       //var_dump(Yaf\Response_Abstract);
     }
+
+    public function testAction(){
+        $mysql = Jeemu\Dispatcher::getInstance()->getMysql();
+        var_export($mysql->select());
+    }
 }

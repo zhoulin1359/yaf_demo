@@ -10,7 +10,7 @@
 return array(
     //Redis 配置
     'redis' => array(
-        'host' => '127.0.0.1',
+        'host' => '10.0.75.1',
         'port' => 6379,
         'auth' => '123456',
         'select' => 1
@@ -19,8 +19,8 @@ return array(
     'db' => [
         // required
         'database_type' => 'mysql',
-        'database_name' => 'history_1',
-        'server' => 'localhost',
+        'database_name' => 'history_base',
+        'server' => '10.0.75.1',
         'username' => 'root',
         'password' => '1234',
 
@@ -35,5 +35,5 @@ return array(
         'logging' => true
     ],
     //开发模式
-    'debug' => false
+    'debug' => true
 );
