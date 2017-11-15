@@ -38,11 +38,8 @@ class DbController extends Yaf\Controller_Abstract
                 }
             }
         }
-
-        var_dump($charArr);
-        //$redis = new RedisCacheModel();
-        //var_dump($redis->setCache(1,2));
-        //jsonResponse($this->getResponse(), [$charLenArr, $charLenStrArr]);
+        //var_dump($charArr);
+        jsonResponse($charArr);
     }
 
     public function redisAction(){
@@ -55,5 +52,21 @@ class DbController extends Yaf\Controller_Abstract
     public function redisAddAction(){
         $cache = new RedisModel();
         $cache -> autoInc();
+    }
+
+    public function mapperAction(){
+        $mapper = new Jeemu\Test\Name();
+        $data = $mapper->select(['c_nianhao_id','c_dy','c_dynasty_chn','c_nianhao_chn','c_firstyear','c_lastyear'],['c_nianhao_id[>]'=>0],'nian_hao');
+        var_dump($data);
+    }
+
+    public function responseAction(){
+        //var_dump(Yaf\Response_Abstract::setBody());
+      /*  $class = new ReflectionClass('Yaf\Response_Abstract');
+        var_dump($class->getMethods());
+        var_dump($class->isAbstract());*/
+      //var_dump();
+        jsonResponse(range(1,20),1,'22');
+      //var_dump(Yaf\Response_Abstract);
     }
 }

@@ -15,10 +15,23 @@ use Jeemu\Log\Handle\File;
 
 class Log
 {
+    const DEBUG = 'DEBUG';
+    const INFO = 'INFO';
+    const WARN = 'WARN';
+    const ERROR = 'ERROR';
+    const FATAL = 'FATAL';
+
+    public static $pathType = [
+        'year' => 'year',
+        'mouth' => 'mouth',
+        'date' => 'date',
+        'hour' => 'hour'
+    ];
+
     private $contents;
     private static $handle;
     private $driveHandle;
-    public static $type = ['DEBUG' => 'DEBUG', 'INFO' => 'INFO', 'WARN' => 'WARN', 'ERROR' => 'ERROR', 'FATAL' => 'FATAL'];
+
 
     private function __construct(AbstractHandler $logDriver)
     {
@@ -29,18 +42,40 @@ class Log
     public static function getInstance(string $path = './runtime', string $type = 'date')
     {
         if (empty(self::$handle)) {
-            self::$handle = new self(new ErrLog($path, $type));
+            self::$handle = new self(new ErrLog($path.self::getPath($type)));
         }
         return self::$handle;
     }
 
+
+    private static function getPath(string $type): string
+    {
+        switch ($type) {
+            case self::$pathType['year']:
+                $result = date('/Y') . '.log';
+                break;
+            case self::$pathType['mouth']:
+                $result = date('/Y/m') . '.log';
+                break;
+            case self::$pathType['date']:
+                $result = date('/Y/m/d') . '.log';
+                break;
+            case self::$pathType['hour']:
+                $result = date('/Y/m/d/H') . '.log';
+                break;
+            default:
+                $result = date('/Y/m/d') . '.log';
+                break;
+        }
+        return $result;
+    }
 
     /**
      * 实时写入
      * @param string $content
      * @return bool
      */
-    public function write(string $content, string $type = 'INFO'): bool
+    public function write(string $content, string $type = self::INFO): bool
     {
         return $this->driveHandle->saveLog($this->getContent($content, $type));
 
@@ -51,7 +86,7 @@ class Log
      * @param string $content
      * @return bool
      */
-    public function record(string $content, string $type = 'INFO')
+    public function record(string $content, string $type = self::INFO)
     {
         $this->contents[] = $this->getContent($content, $type);
 

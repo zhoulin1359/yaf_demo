@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: JeemuZhou
@@ -12,43 +13,37 @@ namespace Jeemu\Log\Handle;
 class ErrLog extends AbstractHandler
 {
     private $path;
+    private $fileName;
 
-    public static $mouth = 'mouth';
-
-    public static $date = 'date';
-
-    public static $hour = 'hour';
-
-    public function __construct($path,$type)
+    public function __construct($path)
     {
-        $this->path = $path.$this->getPath($type);
+        $path = pathinfo($path);
+        $this->initPath($path['dirname']);
+        $this->path = $path['dirname'];
+        $this->fileName = $path['basename'];
+
     }
 
-    private function getPath(string $type): string
+    private function initPath($path)
     {
-        switch ($type) {
-            case self::$mouth:
-
-                $result = date('/Y/m') . '.log';
-                break;
-            case self::$date:
-
-                $result = date('/Y/m/d') . '.log';
-                break;
-            case self::$hour:
-
-                $result = date('/Y/m/d/H') . '.log';
-                break;
-            default:
-                $result = date('/Y/m/d') . '.log';
-                break;
+        if (!is_dir($path)) {
+            if (!mkdir($path, 0755, true)) {
+                throw new \Exception('创建目录失败', -1);
+            }
+        } else {
+            if (substr(sprintf('%o', fileperms($path)), -4) != '0755') {
+                if (!chmod($path, 0755)) {
+                    throw new \Exception('目录权限错误', -1);
+                }
+            }
         }
-        return $result;
+
     }
+
 
     public function saveLog(string $content): bool
     {
         // TODO: Implement saveLog() method.
-        return error_log($content."\r\n", 3,$this->path);
+        return error_log($content . "\r\n", 3, $this->path.'/'.$this->fileName);
     }
 }

@@ -55,26 +55,4 @@ class File extends AbstractHandler
 
     }
 
-    private function getPath(string $type): string
-    {
-        switch ($type) {
-            case self::$mouth:
-                $this->initPath($this->path. date('/Y'));
-                $result = date('/Y/m') . '.log';
-                break;
-            case self::$date:
-                $this->initPath($this->path. date('/Y/m'));
-                $result = date('/Y/m/d') . '.log';
-                break;
-            case self::$hour:
-                $this->initPath($this->path. date('/Y/m/d'));
-                $result = date('/Y/m/d/H') . '.log';
-                break;
-            default:
-                $this->initPath($this->path. date('/Y/m'));
-                $result = date('/Y/m/d') . '.log';
-                break;
-        }
-        return $result;
-    }
 }

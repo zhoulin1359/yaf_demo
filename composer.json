@@ -5,7 +5,9 @@
   "autoload": {
     "psr-4": {
       "Jeemu\\": "jeemu/log/src",
-      "Jeemu\\Log\\": "jeemu/log/src"
+      "Jeemu\\Log\\": "jeemu/log/src",
+
+      "Jeemu\\Test\\": ["jeemu/test/src","jeemu/test/src/Obj"]
     }
   }
 }

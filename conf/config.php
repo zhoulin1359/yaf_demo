@@ -9,13 +9,14 @@
 
 return array(
     //Redis 配置
-    'redis'=>array(
-        'host'  =>'127.0.0.1',
-        'port'  =>6379,
-        'auth'  =>'123456',
-        'select'=>1
+    'redis' => array(
+        'host' => '127.0.0.1',
+        'port' => 6379,
+        'auth' => '123456',
+        'select' => 1
     ),
-    'db'=>[
+    //数据库
+    'db' => [
         // required
         'database_type' => 'mysql',
         'database_name' => 'history_1',
@@ -32,5 +33,7 @@ return array(
 
         // [optional] Enable logging (Logging is disabled by default for better performance)
         'logging' => true
-    ]
+    ],
+    //开发模式
+    'debug' => false
 );
