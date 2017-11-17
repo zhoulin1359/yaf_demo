@@ -11,6 +11,7 @@ namespace Jeemu\Log\Handle;
 
 abstract class AbstractHandler
 {
+    protected $driverHandle;
 
     abstract public function saveLog(string $content): bool;
 

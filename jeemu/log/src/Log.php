@@ -12,6 +12,7 @@ namespace Jeemu;
 use Jeemu\Log\Handle\AbstractHandler;
 use Jeemu\Log\Handle\ErrLog;
 use Jeemu\Log\Handle\File;
+use Jeemu\Log\Handle\Mysql;
 use Jeemu\Log\Handle\Redis;
 
 class Log
@@ -30,26 +31,39 @@ class Log
     ];
 
     private $contents;
-    private static $handle;
     private $driveHandle;
 
 
-    public function __construct(AbstractHandler $logDriver)
+    public function __construct(string $driver = 'redis', string $path = './runtime', string $type = 'date', int $timeOur = 0)
     {
-        $this->driveHandle = $logDriver;
-    }
-
-
-    public static function getInstance(string $path = './runtime', string $type = 'date')
-    {
-        if (empty(self::$handle)) {
-            self::$handle = new self(new Redis($path.self::getPath($type)));
+        switch ($driver){
+            case 'file':
+                $this->driveHandle = new File($path . $this->getPath($type));
+                break;
+            case 'redis':
+                $this->driveHandle = new Redis($path . $this->getPath($type),$timeOur);
+                break;
+            case 'mysql':
+                $this->driveHandle = new Mysql(Dispatcher::getInstance()->getMysql('db_log'),$path . $this->getPath($type),$timeOur);
+                break;
+            default:
+                $this->driveHandle = new Redis($path . $this->getPath($type));
+                break;
         }
-        return self::$handle;
+
     }
 
+    /*
+        public static function getInstance(string $path = './runtime', string $type = 'date')
+        {
+            if (empty(self::$handle)) {
+                self::$handle = new self(new Redis($path.self::getPath($type)));
+            }
+            return self::$handle;
+        }*/
 
-    private static function getPath(string $type): string
+
+    private function getPath(string $type): string
     {
         switch ($type) {
             case self::$pathType['year']:

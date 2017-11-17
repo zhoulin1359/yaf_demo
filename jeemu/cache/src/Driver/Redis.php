@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Time: 12:19
  */
 
-namespace Jeemu\Db;
+namespace Jeemu\Cache;
 
 
 class Redis extends AbstractDriver

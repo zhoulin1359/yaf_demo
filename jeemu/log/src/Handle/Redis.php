@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: JeemuZhou
@@ -17,13 +17,12 @@ class Redis extends AbstractHandler
 
     private $redisListKey;
 
-    private $handle;
     private $timeOut = 86400 * 30;
 
     public function __construct(string $path, int $timeOut = 0)
     {
-        $this->handle = Dispatcher::getInstance()->getRedis();
-        $this->handle->select(3);
+        $this->driverHandle = Dispatcher::getInstance()->getRedis();
+        $this->driverHandle->select(3);
         if ($timeOut) {
             $this->timeOut = $timeOut;
         }
@@ -33,8 +32,8 @@ class Redis extends AbstractHandler
 
     public function saveLog(string $content): bool
     {
-        $this->handle->lPush($this->redisListKey, $content);
-        $this->handle->expire($this->redisListKey, $this->timeOut);
+        $this->driverHandle->lPush($this->redisListKey, $content);
+        $this->driverHandle->expire($this->redisListKey, $this->timeOut);
         return true;
         // TODO: Implement saveLog() method.
     }

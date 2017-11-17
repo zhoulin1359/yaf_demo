@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Time: 12:16
  */
 
-namespace Jeemu\Db;
+namespace Jeemu\Cache;
 
 
 use Medoo\Medoo;

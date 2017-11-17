@@ -15,13 +15,6 @@ class File extends AbstractHandler
 
     private $path;
     private $handle;
-
-    public static $mouth = 'mouth';
-
-    public static $date = 'date';
-
-    public static $hour = 'hour';
-
     public function __construct(string $path = './runtime', string $pathType = 'date')
     {
         $this->initPath($path);
