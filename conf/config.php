@@ -10,9 +10,9 @@
 return array(
     //Redis 配置
     'redis' => array(
-        'host' => '10.0.75.1',
+        'host' => '172.17.0.3',
         'port' => 6379,
-        'auth' => '123456',
+        //'auth' => '123456',
         'select' => 1
     ),
     //数据库
@@ -20,9 +20,28 @@ return array(
         // required
         'database_type' => 'mysql',
         'database_name' => 'history_base',
-        'server' => '10.0.75.1',
+        'server' => '172.17.0.4',
         'username' => 'root',
-        'password' => '1234',
+        'password' => '123456',
+
+        // [optional]
+        'charset' => 'utf8',
+        'port' => 3306,
+
+        // [optional] Table prefix
+        'prefix' => '',
+
+        // [optional] Enable logging (Logging is disabled by default for better performance)
+        'logging' => true
+    ],
+    //日志数据库
+    'db_log' => [
+        // required
+        'database_type' => 'mysql',
+        'database_name' => 'test',
+        'server' => '172.17.0.4',
+        'username' => 'root',
+        'password' => '123456',
 
         // [optional]
         'charset' => 'utf8',
@@ -35,5 +54,5 @@ return array(
         'logging' => true
     ],
     //开发模式
-    'debug' => false
+    'debug' => true
 );
