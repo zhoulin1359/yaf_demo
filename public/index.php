@@ -15,7 +15,7 @@ ini_set('yaf.use_spl_autoload','0');     //开启自定义加载，鸟哥不建�
 
 define("APP_PATH",  realpath(dirname(__FILE__) . '/../')); /* 指向public的上一级 */
 $app  = new Yaf\Application(APP_PATH . "/conf/application.ini");
-
+//snn
 //var_dump(application.ext);
 //var_dump($app::app());
 //var_dump($app->environ());
