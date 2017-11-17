@@ -62,9 +62,7 @@ function jsonResponse(array $data = [], int $status = 1, string $info = 'success
         $response->setBody(json_encode(array('status' => $status, 'info' => $info, 'data' => $data)));
     }
 
-    $response->response();//die;
-    // var_dump($response);
-   //return;
+    $response->response();die;
 }
 
 class httpResponse extends Yaf\Response_Abstract
@@ -88,4 +86,26 @@ function randStr(int $len = 8)
     }
 
     return $str;
+}
+
+
+/**
+ * 创建目录
+ * @param $path
+ * @throws Exception
+ */
+function createPath($path)
+{
+    if (!is_dir($path)) {
+        if (!mkdir($path, 0755, true)) {
+            throw new \Exception('创建目录失败', -1);
+        }
+    } else {
+        if (substr(sprintf('%o', fileperms($path)), -4) != '0755') {
+            if (!chmod($path, 0755)) {
+                throw new \Exception('目录权限错误', -1);
+            }
+        }
+    }
+
 }

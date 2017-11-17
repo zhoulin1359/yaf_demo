@@ -80,11 +80,11 @@ class Bootstrap extends Yaf\Bootstrap_Abstract
     {
         if (!conf('debug')) {
             set_error_handler(function ($errNo, $errStr, $errFile, $errLine) {
-                Jeemu\Log::getInstance()->write('发生错误:' . $errNo . '|' . $errStr . '|' . $errFile . '|' . $errLine, 'ERROR');
+                \Jeemu\Dispatcher::getInstance()->getLog()->write('发生错误:' . $errNo . '|' . $errStr . '|' . $errFile . '|' . $errLine, 'ERROR');
                 jsonResponse([], 404, '啊!!!发现了一个bug');
             });
             set_exception_handler(function ($ex) {
-                Jeemu\Log::getInstance()->write('捕捉异常:' . var_export($ex, true), 'ERROR');
+                \Jeemu\Dispatcher::getInstance()->getLog()->write('捕捉异常:' . var_export($ex, true), 'ERROR');
                 $info = '啊!!!发现了一个bug';
                 jsonResponse([], 404, $info);
             });
