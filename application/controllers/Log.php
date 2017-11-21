@@ -9,7 +9,7 @@
 class LogController extends  Yaf\Controller_Abstract
 {
     public function indexAction(){
-        $log = \Jeemu\Dispatcher::getInstance()->getLog('mysql');
-        jsonResponse([$log->write(1)]);
+        $log = \Jeemu\Dispatcher::getInstance()->getLog('redis');
+        jsonResponse([$log->write(time())]);
     }
 }
