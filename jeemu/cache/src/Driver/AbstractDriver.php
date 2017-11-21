@@ -14,11 +14,13 @@ abstract class AbstractDriver
 
 
 
-    abstract public function set(string $key, string $value);
+    abstract public function set(string $key, $value,int $ttl);
 
     abstract public function get(string $key);
 
     abstract public function delete(string $key);
 
     abstract public function has(string $key);
+
+    abstract public function clear();
 }

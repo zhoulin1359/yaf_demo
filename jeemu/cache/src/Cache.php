@@ -18,6 +18,9 @@ class Cache implements \Psr\SimpleCache\CacheInterface
             case 'file':
                 $this->driverHandle = new Cache\File();
                 break;
+            case 'redis':
+                $this->driverHandle = new Cache\Redis();
+                break;
             default:
                 $this->driverHandle = new Cache\File();
                 break;
@@ -29,9 +32,9 @@ class Cache implements \Psr\SimpleCache\CacheInterface
         return md5($key);
     }
 
-    public function set($key, $value, $ttl = 0)
+    public function set($key, $value, $ttl = null)
     {
-        $this->driverHandle->set($this->initKey((string)$key), (string)$value, $ttl);
+        $this->driverHandle->set($this->initKey((string)$key),$value, (int)$ttl);
         // TODO: Implement set() method.
     }
 
@@ -58,7 +61,7 @@ class Cache implements \Psr\SimpleCache\CacheInterface
         // TODO: Implement delete() method.
     }
 
-    public function setMultiple($values, $ttl = 0)
+    public function setMultiple($values, $ttl = null)
     {
         foreach ((array)$values as $key => $value){
             $this->set($key,$value,$ttl);
@@ -69,8 +72,6 @@ class Cache implements \Psr\SimpleCache\CacheInterface
     public function getMultiple($keys, $default = null)
     {
         $result = [];
-        var_dump($keys);
-        var_dump($this->get(1));
         foreach ((array)$keys as $key){
             $result[] = $this->get($key)??$default;
         }
@@ -88,6 +89,7 @@ class Cache implements \Psr\SimpleCache\CacheInterface
 
     public function clear()
     {
+        return $this->driverHandle->clear();
         // TODO: Implement clear() method.
     }
 }

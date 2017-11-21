@@ -26,7 +26,7 @@ class File extends AbstractDriver
         return $this->path . DIRECTORY_SEPARATOR . $key[0] . DIRECTORY_SEPARATOR . $key[1] . DIRECTORY_SEPARATOR . $key[2] . DIRECTORY_SEPARATOR;
     }
 
-    public function set(string $key, string $value, int $ttl = 0): bool
+    public function set(string $key, $value, int $ttl = 0): bool
     {
         $path = $this->getPath($key);
         createPath($path);
@@ -39,7 +39,7 @@ class File extends AbstractDriver
 
     }
 
-    public function get(string $key): string
+    public function get(string $key)
     {
         $fileName = $this->getPath($key) . $key;
         if (file_exists($fileName)) {
@@ -73,5 +73,29 @@ class File extends AbstractDriver
     {
         return file_exists($this->getPath($key) . $key);
         // TODO: Implement has() method.
+    }
+
+    public function clear()
+    {
+       $this->clearPath($this->path);
+        return true;
+        //return rmdir($this->path);
+        // TODO: Implement clear() method.
+    }
+
+    private function clearPath(string $path){
+        $dir = opendir($path);
+        while (false !== ($file = readdir($dir))) {
+            if ($file != '.' && $file != '..') {
+                $full = $path . '/' . $file;
+                if (is_dir($full)) {
+                    $this->clearPath($full);
+                } else {
+                    unlink($full);
+                }
+            }
+        }
+        closedir($dir);
+        rmdir($path);
     }
 }

@@ -10,25 +10,51 @@ declare(strict_types=1);
 namespace Jeemu\Cache;
 
 
+use Jeemu\Dispatcher;
+
 class Redis extends AbstractDriver
 {
-    protected function conn(array $conf): \Redis
+
+    private $redisConn;
+    public function __construct()
     {
-        $obj = new \Redis();
-        $obj->connect($conf['host'], isset($conf['port']) ? $conf['port'] : 6379);
-        if (!empty($conf['auth'])) {
-            $obj->auth($conf['auth']);
-        }
-        if (!empty($conf['select'])) {
-            $obj->select($conf['select']);
-        }
-        return $obj;
-        // TODO: Implement conn() method.
+        $this->redisConn = Dispatcher::getInstance()->getRedis();
+        $this->redisConn ->select(4);
+        $this->redisConn->setOption(\Redis::OPT_SERIALIZER, (string)\Redis::SERIALIZER_PHP); //序列化
     }
 
-    protected function getConf(): array
-    {
-        return $this->conf??conf('redis');
-        // TODO: Implement getConf() method.
-    }
+   public function set(string $key,  $value, int $ttl)
+   {
+       if ($ttl){
+           $this->ttl = $ttl;
+       }
+       return $this->redisConn->set($key,$value, $this->ttl);
+       // TODO: Implement set() method.
+   }
+
+
+   public function get(string $key)
+   {
+       return $this->redisConn->get($key);
+       // TODO: Implement get() method.
+   }
+
+
+   public function delete(string $key)
+   {
+       return $this->redisConn->del($key);
+       // TODO: Implement delete() method.
+   }
+
+   public function has(string $key)
+   {
+        return $this->redisConn->exists($key);
+       // TODO: Implement has() method.
+   }
+
+   public function clear()
+   {
+       $this->redisConn->flushDB();
+       // TODO: Implement clear() method.
+   }
 }
