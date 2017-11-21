@@ -12,7 +12,6 @@ class IndexController extends Yaf\Controller_Abstract
     //默认Action
     public function indexAction()
     {
-        throw new ErrorException('sss',1);
         jsonResponse($_SERVER);
         throw new ErrorException('sss',1);
        // die;

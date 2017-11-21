@@ -9,7 +9,7 @@
 class CacheController extends BaseController
 {
     public function indexAction(){
-        $cache = \Jeemu\Dispatcher::getInstance()->getCache();
+        $cache = \Jeemu\Dispatcher::getInstance()->getCache('file');
         $cache->set(time(),time());
         var_dump($cache->get(time()));
 
@@ -21,5 +21,14 @@ class CacheController extends BaseController
 
         $cache->setMultiple($arr);
         var_dump($cache->getMultiple(array_keys($arr)));
+
+        $cache->set('array',$arr);
+        var_dump($cache->get('array'));
+
+    }
+
+    public function clearAction(){
+        \Jeemu\Dispatcher::getInstance()->getCache('file')->clear();
+        jsonResponse();
     }
 }
