@@ -9,22 +9,11 @@
 class CacheController extends BaseController
 {
     public function indexAction(){
-        $cache = \Jeemu\Dispatcher::getInstance()->getCache('file');
-        $cache->set(time(),time());
-        var_dump($cache->get(time()));
-
-        $a = $cache->get('a');
-        var_dump($a);
-        $cache->delete('a');
-
-        $arr = range(1,10);
-
-        $cache->setMultiple($arr);
-        var_dump($cache->getMultiple(array_keys($arr)));
-
-        $cache->set('array',$arr);
-        var_dump($cache->get('array'));
-
+        $cache = \Jeemu\Dispatcher::getInstance()->getCache('mysql');
+        $cache->set('a','zh中午',2);
+        var_dump($cache->get('a'));
+       // $cache->clear();
+        var_dump($cache->has('a'));
     }
 
     public function clearAction(){
