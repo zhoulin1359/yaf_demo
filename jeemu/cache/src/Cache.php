@@ -21,6 +21,9 @@ class Cache implements \Psr\SimpleCache\CacheInterface
             case 'redis':
                 $this->driverHandle = new Cache\Redis();
                 break;
+            case 'mysql':
+                $this->driverHandle = new Cache\Mysql();
+                break;
             default:
                 $this->driverHandle = new Cache\File();
                 break;
@@ -49,8 +52,9 @@ class Cache implements \Psr\SimpleCache\CacheInterface
         // TODO: Implement get() method.
     }
 
-    public function has($key)
+    public function has($key):bool
     {
+        return $this->driverHandle->has($this->initKey($key));
         // TODO: Implement has() method.
     }
 

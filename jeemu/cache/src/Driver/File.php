@@ -69,13 +69,13 @@ class File extends AbstractDriver
     }
 
 
-    public function has(string $key)
+    public function has(string $key):bool
     {
         return file_exists($this->getPath($key) . $key);
         // TODO: Implement has() method.
     }
 
-    public function clear()
+    public function clear():bool
     {
        $this->clearPath($this->path);
         return true;
