@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a691bdb7ff7becce4fc2c0d87fed30bb",
+    "content-hash": "0b1791b0838c2d7c0f70ad3e3b96a05c",
     "packages": [
         {
             "name": "catfan/medoo",
@@ -112,6 +112,44 @@
                 "simple-cache"
             ],
             "time": "2017-01-02T13:31:39+00:00"
+        },
+        {
+            "name": "wixel/gump",
+            "version": "v1.5.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Wixel/GUMP.git",
+                "reference": "6452af9980a708e6a8ab2b6b912222a23c22949b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/Wixel/GUMP/6452af9980a708e6a8ab2b6b912222a23c22949b.zip",
+                "reference": "6452af9980a708e6a8ab2b6b912222a23c22949b",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "gump.class.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sean Nieuwoudt",
+                    "homepage": "https://wixelhq.com"
+                },
+                {
+                    "name": "Filis Futsarov",
+                    "homepage": "https://filis.me"
+                }
+            ],
+            "description": "A fast, extensible & stand-alone PHP input validation class that allows you to validate any data",
+            "homepage": "https://wixelhq.com/",
+            "time": "2017-08-04T16:37:43+00:00"
         }
     ],
     "packages-dev": [],
