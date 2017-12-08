@@ -64,4 +64,13 @@ class Dispatcher
         }
         return self::$obj[__FUNCTION__];
     }
+
+
+    public function getRequest():Request
+    {
+        if (empty(self::$obj[__FUNCTION__])) {
+            self::$obj[__FUNCTION__] = new Request();
+        }
+        return self::$obj[__FUNCTION__];
+    }
 }

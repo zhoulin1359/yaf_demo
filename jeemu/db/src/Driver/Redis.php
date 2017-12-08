@@ -26,9 +26,9 @@ class Redis extends AbstractDriver
         // TODO: Implement conn() method.
     }
 
-    protected function getConf(): array
+    protected function getConf(string $conf = 'redis'): array
     {
-        return $this->conf??conf('redis');
+        return $this->conf??conf($conf);
         // TODO: Implement getConf() method.
     }
 }

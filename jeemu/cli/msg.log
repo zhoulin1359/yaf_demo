@@ -1,0 +1,5 @@
+int(10)
+int(15)
+int(12)
+
+Parse error: syntax error, unexpected 'use' (T_USE), expecting '{' in /var/www/html/yaf_demo.git/svn/trunk/jeemu/cli/test.php on line 10
