@@ -8,12 +8,13 @@
  */
 class Db_Base
 {
+    protected $fetchStyle = PDO::FETCH_ASSOC;
     protected $tableName;
     protected $dbObj;
 
     public function __construct()
     {
-        $this->dbObj = Db_MysqlConn::getInstance();
+        $this->dbObj = \Jeemu\Dispatcher::getInstance()->getMysql();
         $this->getTableName();
     }
 
@@ -59,6 +60,11 @@ class Db_Base
         return $this->dbObj->error();
     }
 
+
+    public function getLog(){
+        return $this->dbObj->log();
+    }
+
     /**
      * 表名
      */
@@ -66,7 +72,7 @@ class Db_Base
     {
         if (empty($this->tableName)) {
             $this->tableName = get_class($this);
-            $this->tableName = str_replace('Model', '', $this->tableName);
+            $this->tableName = str_replace(['Db','Model'], ['',''], $this->tableName);
             for ($i = 0; $i < mb_strlen($this->tableName); $i++) {
                 if ($i === 0) {
                     $this->tableName[$i] = strtolower($this->tableName[$i]);
