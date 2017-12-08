@@ -12,11 +12,11 @@
  * @param $conf  以.分割的配置项
  * @return mixed 配置项
  */
-function conf(string $conf)
+function conf(string $conf,$default = null)
 {
     $conf = explode('.', $conf);
     if (empty($conf)) {
-        return false;
+        return $default;
     }
     $confArr = Yaf\Registry::get('config');
     foreach ($conf as $value) {
@@ -26,7 +26,7 @@ function conf(string $conf)
         if (isset($confArr[$value])) {
             $confArr = $confArr[$value];
         } else {
-            $confArr = false;
+            $confArr = $default;
             break;
         }
 
@@ -108,4 +108,25 @@ function createPath($path)
         }
     }
 
+}
+
+/**
+ * 获取运行时使用内存
+ * @param int $bytes
+ * @param int $precision
+ * @return string
+ */
+function formatBytes($bytes = 0, $precision = 2) {
+    if (empty($bytes)){
+        $bytes = memory_get_peak_usage();
+    }
+    $units = array("b", "kb", "mb", "gb", "tb");
+
+    $bytes = max($bytes, 0);
+    $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
+    $pow = min($pow, count($units) - 1);
+
+    $bytes /= (1 << (10 * $pow));
+
+    return round($bytes, $precision) . " " . $units[$pow];
 }
