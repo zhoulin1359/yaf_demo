@@ -32,10 +32,10 @@ class Dispatcher
 
     public function getMysql(string $mysqlConf = 'db'): Medoo
     {
-        if (empty(self::$obj[__FUNCTION__])) {
-            self::$obj[__FUNCTION__] = (new Db\Mysql(conf($mysqlConf)))->getObj();
+        if (empty(self::$obj[__FUNCTION__][$mysqlConf])) {
+            self::$obj[__FUNCTION__][$mysqlConf] = (new Db\Mysql(conf($mysqlConf)))->getObj();
         }
-        return self::$obj[__FUNCTION__];
+        return self::$obj[__FUNCTION__][$mysqlConf];
     }
 
 
