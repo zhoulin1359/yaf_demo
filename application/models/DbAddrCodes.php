@@ -6,7 +6,7 @@
  * Date: 2017/12/8
  * Time: 14:53
  */
-class DbAddrCodesModel extends Db_Base
+class DbAddrCodesModel extends Db_BaseBase
 {
     public function addrInfoByAddrIds(array $addrIds):array {
         $result = [];

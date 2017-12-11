@@ -6,7 +6,7 @@
  * Date: 2017/12/8
  * Time: 15:56
  */
-class DbAddrBelongsModel extends Db_Base
+class DbAddrBelongsModel extends Db_BaseBase
 {
     protected $tableName = 'addr_belongs_data';
 

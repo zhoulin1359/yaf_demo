@@ -6,7 +6,7 @@
  * Date: 2017/12/8
  * Time: 10:21
  */
-class DbBiogAddrDataModel extends Db_Base
+class DbBiogAddrDataModel extends Db_BaseBase
 {
 
     public function getAddrData($start, $end, $default = null)

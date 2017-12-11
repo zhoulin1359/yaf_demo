@@ -30,9 +30,18 @@ class AddrController extends BaseController
         //var_dump($data);
         $redisAddrGeoModel = new RedisAddrGeoModel();
         $redisAddrGeoModel->del();
+        $jeemuAddrModel = new DbJeemuAddrModel();
         foreach ($data as $value){
             $redisAddrGeoModel->set($value['x_coord'],$value['y_coord'],$value['c_addr_id']);
+            $jeemuAddrModel->set([
+                'id'=>$value['c_addr_id'],
+                'lng'=>$value['x_coord'],
+                'lat'=> $value['y_coord']
+            ]);
         }
+
+
+
     }
 
 
@@ -57,4 +66,7 @@ class AddrController extends BaseController
         var_dump($data);
         var_dump(formatBytes());
     }
+
+
+    public function
 }
