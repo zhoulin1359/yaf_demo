@@ -6,18 +6,25 @@
  * Date: 2017/10/27
  * Time: 17:09
  */
-class Db_Base
+class Db_MysqlBase implements Db_Interface
 {
     protected $fetchStyle = PDO::FETCH_ASSOC;
     protected $tableName;
     protected $dbObj;
+    protected $replaceArr = ['Db','Model'];
 
     public function __construct()
     {
-        $this->dbObj = \Jeemu\Dispatcher::getInstance()->getMysql();
+        $this->dbObj = \Jeemu\Dispatcher::getInstance()->getMysql($this->getType());
         $this->getTableName();
     }
 
+
+    public function getType():string
+    {
+        return 'db';
+        // TODO: Implement getType() method.
+    }
 
     /**
      * 查询
@@ -72,7 +79,7 @@ class Db_Base
     {
         if (empty($this->tableName)) {
             $this->tableName = get_class($this);
-            $this->tableName = str_replace(['Db','Model'], ['',''], $this->tableName);
+            $this->tableName = str_replace($this->replaceArr, ['',''], $this->tableName);
             for ($i = 0; $i < mb_strlen($this->tableName); $i++) {
                 if ($i === 0) {
                     $this->tableName[$i] = strtolower($this->tableName[$i]);
