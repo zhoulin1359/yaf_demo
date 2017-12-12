@@ -17,8 +17,8 @@
 <script type="text/javascript" src="//webapi.amap.com/maps?v=1.4.2&key=b9163fde27dc5d66906d413a84942298"></script>
 <script type="text/javascript">
     var map = new AMap.Map('container',{
-       // resizeEnable: true,
-        zoom: 13,
+        resizeEnable: true,
+        zoom: 11,
         //center: [116.480983, 40.0958],
         mapStyle: 'amap://styles/macaron'//样式URL
     });
@@ -42,7 +42,11 @@
         AMap.event.addListener(geolocation, 'complete', onComplete);//返回定位信息
         AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
     });
-
+    map.plugin(["AMap.ToolBar"],function(){
+        //加载工具条
+        var tool = new AMap.ToolBar();
+        map.addControl(tool);
+    });
     //解析定位结果
     function onComplete(data) {
         var str=['定位成功'];
@@ -63,11 +67,54 @@
     var scope = map.getBounds();
     console.log(scope);
 
+    function update(e) {
+
+    }
+
     //事件
-    map.on('moveend',function (e) {
+    map.on('moveend',function (e){
         var scope = map.getBounds();
         console.log(scope);
-
+        console.log(e);
+        $.ajax({
+            url:"/home/addr/addr",
+            type:"GET",
+            data:{
+                min_lng:scope.southwest.lng,
+                min_lat:scope.southwest.lat,
+                max_lng:scope.northeast.lng,
+                max_lat:scope.northeast.lat
+            },
+            success:function (data) {
+                console.log(data);
+            }
+        })
+    });
+    map.on('zoomend',function (e){
+       // map.clearMap();
+        var scope = map.getBounds();
+        console.log(scope);
+        console.log(e);
+        $.ajax({
+            url:"/home/addr/addr",
+            type:"GET",
+            data:{
+                min_lng:scope.southwest.lng,
+                min_lat:scope.southwest.lat,
+                max_lng:scope.northeast.lng,
+                max_lat:scope.northeast.lat
+            },
+            success:function (data) {
+                $.each(data.data,function (key,value) {
+                    marker = new AMap.Marker({
+                        icon: "//webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+                        position: [value.gaode_lng, value.gaode_lat],
+                        title:value.id+'-'+key
+                    });
+                    marker.setMap(map);
+                })
+            }
+        })
     });
 </script>
 </body>
