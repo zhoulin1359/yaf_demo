@@ -61,12 +61,32 @@ class AddrController extends BaseController
 
 
     public function testAction(){
-        $belongsModel = new RedusAddrBelongsModel();
-        $data = $belongsModel->getParent(44);
+        $model = new DbJeemuAddrModel();
+        $data = $model->get();
+        //$url =116.481499,39.990475';
+        foreach ($data as $value){
+            $url = 'http://restapi.amap.com/v3/assistant/coordinate/convert?coordsys=gps&output=json&key=057cb3ea56d233f6edcfa4b3f394d91a&locations='.$value['lng'].','.$value['lat'];
+           // var_dump($url);die;
+            $result = file_get_contents($url);
+            $result = json_decode($result,true);
+            //var_dump($result);die;
+            if (isset($result['status']) && $result['status'] == 1){
+                $arr = explode(',',$result['locations']);
+                $model->updateById(['gaode_lng'=>$arr[0],'gaode_lat'=>$arr[1]],$value['id']);
+            }else{
+                var_dump($result);die;
+            }
+        }
         var_dump($data);
-        var_dump(formatBytes());
     }
 
 
-    public function
+    public function addrAction(){
+        $request['min_lng'] = \Jeemu\Dispatcher::getInstance()->getRequest()->getQuery('min_lng',0.0);
+        $request['max_lng'] = \Jeemu\Dispatcher::getInstance()->getRequest()->getQuery('max_lng',0.0);
+        $request['min_lat'] = \Jeemu\Dispatcher::getInstance()->getRequest()->getQuery('min_lat',0.0);
+        $request['max_lat'] = \Jeemu\Dispatcher::getInstance()->getRequest()->getQuery('max_lat',0.0);
+        $model = new DbJeemuAddrModel();
+        jsonResponse($model->getByLngAntLat($request));
+    }
 }
