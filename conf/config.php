@@ -34,6 +34,25 @@ return array(
         // [optional] Enable logging (Logging is disabled by default for better performance)
         'logging' => true
     ],
+    //数据库
+    'db_jeemu' => [
+        // required
+        'database_type' => 'mysql',
+        'database_name' => 'history_jeemu',
+        'server' => '172.17.0.4',
+        'username' => 'root',
+        'password' => '123456',
+
+        // [optional]
+        'charset' => 'utf8',
+        'port' => 3306,
+
+        // [optional] Table prefix
+        'prefix' => 'his_',
+
+        // [optional] Enable logging (Logging is disabled by default for better performance)
+        'logging' => true
+    ],
     //日志数据库
     'db_log' => [
         // required
