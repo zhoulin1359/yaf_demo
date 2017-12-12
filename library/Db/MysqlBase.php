@@ -49,6 +49,14 @@ class Db_MysqlBase implements Db_Interface
         return $data;
     }
 
+
+    public function update($data,$where = null,$table =null){
+        if ($table){
+            $this->tableName = $table;
+        }
+        return $this->dbObj->update($this->tableName,$data,$where);
+    }
+
     /**
      * 插入
      * @param $data
