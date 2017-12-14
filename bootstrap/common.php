@@ -54,6 +54,10 @@ function jsonResponse(array $data = [], int $status = 1, string $info = 'success
         //$response = (new BaseController())->getResponse();
     }
     $response->setHeader('Content-Type', 'application/json;charset=utf-8');
+    $response->setHeader('Access-Control-Allow-Origin', '*');
+    $response->setHeader('Access-Control-Allow-Credentials',true); //允许cookie
+    $response->setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    $response->setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT');
     $response->clearBody();
     $callback = Yaf\Dispatcher::getInstance()->getRequest()->getQuery('callback');
     if ($callback) {
@@ -129,4 +133,11 @@ function formatBytes($bytes = 0, $precision = 2) {
     $bytes /= (1 << (10 * $pow));
 
     return round($bytes, $precision) . " " . $units[$pow];
+}
+
+
+function mergerEqualArr(array $arr,array $equal,array $merge):array {
+    $result = [];
+    $md5Arr = [];
+
 }
