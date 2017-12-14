@@ -28,8 +28,8 @@ class DbJeemuAddrModel extends Db_JeemuBase
             'gaode_lat[>=]' => $param['min_lat'],
             'gaode_lat[<=]' => $param['max_lat']
         ]);
-        var_dump($this->getLog());
-        var_dump($data);
+        //var_dump($this->getLog());
+        //var_dump($data);die;
       /*  var_dump($param);
         var_dump($this->getLog());
         var_dump($data);
