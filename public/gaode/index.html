@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
     <style type="text/css">
-        body,html,#container{
+        body, html, #container {
             height: 100%;
             margin: 0px;
         }
@@ -16,11 +16,12 @@
 <script type="text/javascript" src="./js/jquery.min.js"></script>
 <script type="text/javascript" src="//webapi.amap.com/maps?v=1.4.2&key=b9163fde27dc5d66906d413a84942298"></script>
 <script type="text/javascript">
-    var map = new AMap.Map('container',{
+    var map = new AMap.Map('container', {
         resizeEnable: true,
         zoom: 11,
+        zooms:[9,12],
         //center: [116.480983, 40.0958],
-        mapStyle: 'amap://styles/macaron'//样式URL
+        mapStyle: 'amap://styles/whitesmoke'//样式URL
     });
 
     map.plugin('AMap.Geolocation', function () {
@@ -35,28 +36,28 @@
             showMarker: true,        //定位成功后在定位到的位置显示点标记，默认：true
             showCircle: false,        //定位成功后用圆圈表示定位精度范围，默认：true
             panToLocation: true,     //定位成功后将定位到的位置作为地图中心点，默认：true
-            zoomToAccuracy:true      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+            zoomToAccuracy: true      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
         });
         map.addControl(geolocation);
         geolocation.getCurrentPosition();
         AMap.event.addListener(geolocation, 'complete', onComplete);//返回定位信息
         AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
     });
-    map.plugin(["AMap.ToolBar"],function(){
+    map.plugin(["AMap.ToolBar"], function () {
         //加载工具条
         var tool = new AMap.ToolBar();
         map.addControl(tool);
     });
     //解析定位结果
     function onComplete(data) {
-        var str=['定位成功'];
+        var str = ['定位成功'];
         str.push('经度：' + data.position.getLng());
         str.push('纬度：' + data.position.getLat());
-        if(data.accuracy){
+        if (data.accuracy) {
             str.push('精度：' + data.accuracy + ' 米');
         }//如为IP精确定位结果则没有精度信息
         str.push('是否经过偏移：' + (data.isConverted ? '是' : '否'));
-       console.log(str);
+        console.log(str);
     }
     //解析定位错误信息
     function onError(data) {
@@ -67,55 +68,52 @@
     var scope = map.getBounds();
     console.log(scope);
 
-    function update(e) {
-
+    function click(e,value) {
+       console.log(e);
+       console.log(value);
     }
-
-    //事件
-    map.on('moveend',function (e){
+    var markers = [];
+    function update(e) {
+        if (markers) {
+            //map.remove(markers);
+            markers = [];
+        }
         var scope = map.getBounds();
         console.log(scope);
         console.log(e);
         $.ajax({
-            url:"/home/addr/addr",
-            type:"GET",
-            data:{
-                min_lng:scope.southwest.lng,
-                min_lat:scope.southwest.lat,
-                max_lng:scope.northeast.lng,
-                max_lat:scope.northeast.lat
+            url: "/home/addr/addr",
+            type: "GET",
+            data: {
+                min_lng: scope.southwest.lng,
+                min_lat: scope.southwest.lat,
+                max_lng: scope.northeast.lng,
+                max_lat: scope.northeast.lat
             },
-            success:function (data) {
-                console.log(data);
-            }
-        })
-    });
-    map.on('zoomend',function (e){
-       // map.clearMap();
-        var scope = map.getBounds();
-        console.log(scope);
-        console.log(e);
-        $.ajax({
-            url:"/home/addr/addr",
-            type:"GET",
-            data:{
-                min_lng:scope.southwest.lng,
-                min_lat:scope.southwest.lat,
-                max_lng:scope.northeast.lng,
-                max_lat:scope.northeast.lat
-            },
-            success:function (data) {
-                $.each(data.data,function (key,value) {
+            success: function (data) {
+                $.each(data.data, function (key, value) {
                     marker = new AMap.Marker({
-                        icon: "//webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+                        map:map,
+                        icon: "/gaode/images/mark_0.png",
                         position: [value.gaode_lng, value.gaode_lat],
-                        title:value.id+'-'+key
+                        title: value.id + '-' + key,
+                        extData:value.id
+                        //clickable:true
                     });
-                    marker.setMap(map);
+                    AMap.event.addListener(marker, 'click',function (e) {
+                        console.log(e.target.G.extData);
+                    });
+                    //marker.on('touchend',click('click',value));
+                    //marker.setMap(map);
+                    markers.push(marker);
                 })
             }
         })
-    });
+    }
+
+    //事件
+    AMap.event.addListener(map,'moveend',update);
+    AMap.event.addListener(map,'zoomend',update);
 </script>
 </body>
 </html>
