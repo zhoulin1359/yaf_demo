@@ -12,7 +12,7 @@
  * @param $conf  以.分割的配置项
  * @return mixed 配置项
  */
-function conf(string $conf,$default = null)
+function conf(string $conf, $default = null)
 {
     $conf = explode('.', $conf);
     if (empty($conf)) {
@@ -40,39 +40,36 @@ function conf(string $conf,$default = null)
  * @param int $status
  * @param string $info
  */
-function jsonResponse(array $data = [], int $status = 1, string $info = 'success', Yaf\Response_Abstract $response = null)
+function jsonResponse(array $data = [], int $status = 1, string $msg = 'success', Yaf\Response_Abstract $response = null)
 {
-    /*  var_dump($response);
-      var_dump(new Yaf\Response\Http());*/
     if (empty($response)) {
-        /* $response = new class() extends Yaf\Response_Abstract
-         {
-             public $_header = 'Content-Type:application/json;charset=utf-8';
-             public $_body = 'Content-Type:application/json;charset=utf-8';
-         };*/
         $response = new Yaf\Response\Http();
-        //$response = (new BaseController())->getResponse();
     }
-    $response->setHeader('Content-Type', 'application/json;charset=utf-8');
-    $response->setHeader('Access-Control-Allow-Origin', '*');
-    $response->setHeader('Access-Control-Allow-Credentials',true); //允许cookie
-    $response->setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    $response->setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT');
-    $response->clearBody();
-    $callback = Yaf\Dispatcher::getInstance()->getRequest()->getQuery('callback');
-    if ($callback) {
-        $response->setBody($callback . '(' . json_encode(array('status' => $status, 'info' => $info, 'data' => $data)) . ')');
-    } else {
-        $response->setBody(json_encode(array('status' => $status, 'info' => $info, 'data' => $data)));
-    }
-
-    $response->response();die;
+    $obj = \Jeemu\Dispatcher::getInstance()->getResponse($response);
+    $obj->setData($data);
+    $obj->setStatus($status);
+    $obj->setMsg($msg);
 }
 
-class httpResponse extends Yaf\Response_Abstract
+
+function getRequestQuery(string $name, $default = null)
 {
-    public $_header = 'Content-Type:application/json;charset=utf-8';
+    $request = Jeemu\Dispatcher::getInstance()->getRequest();
+    return $request->getQuery($name, $default);
 }
+
+function getRequestPost(string $name, $default = null)
+{
+    $request = Jeemu\Dispatcher::getInstance()->getRequest();
+    return $request->getPost($name, $default);
+}
+
+function getRequestBody(string $name, $default = null)
+{
+    $request = Jeemu\Dispatcher::getInstance()->getRequest();
+    return $request->getBody($name, $default);
+}
+
 
 /**
  * 随机字符串
@@ -120,8 +117,9 @@ function createPath($path)
  * @param int $precision
  * @return string
  */
-function formatBytes($bytes = 0, $precision = 2) {
-    if (empty($bytes)){
+function formatBytes($bytes = 0, $precision = 2)
+{
+    if (empty($bytes)) {
         $bytes = memory_get_peak_usage();
     }
     $units = array("b", "kb", "mb", "gb", "tb");
@@ -135,9 +133,22 @@ function formatBytes($bytes = 0, $precision = 2) {
     return round($bytes, $precision) . " " . $units[$pow];
 }
 
-
-function mergerEqualArr(array $arr,array $equal,array $merge):array {
-    $result = [];
-    $md5Arr = [];
-
+/**
+ * 发送https请求
+ * @param $url
+ * @return mixed
+ */
+function curlHttpsGet($url, $timeOut = 10)
+{
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+    curl_setopt($ch, CURLOPT_HEADER, false);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_TIMEOUT, $timeOut);
+    curl_setopt($ch, CURLOPT_REFERER, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    $result = curl_exec($ch);
+    curl_close($ch);
+    return $result;
 }

@@ -73,4 +73,12 @@ class Dispatcher
         }
         return self::$obj[__FUNCTION__];
     }
+
+
+    public function getResponse($respons):Response{
+        if (empty(self::$obj[__FUNCTION__])) {
+            self::$obj[__FUNCTION__] = new Response($respons);
+        }
+        return self::$obj[__FUNCTION__];
+    }
 }
