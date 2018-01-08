@@ -8,14 +8,35 @@
  */
 class CacheController extends BaseController
 {
-    public function indexAction(){
-        $cache = \Jeemu\Dispatcher::getInstance()->getCache('mysql');
-        $cache->set('a','zh中午',2);
-        var_dump($cache->get('a'));
-       // $cache->clear();
-        var_dump($cache->has('a'));
+    /**
+     * 设置缓存
+     */
+    public function setAction(){
+        $cache = \Jeemu\Dispatcher::getInstance()->getCache('file');
+        $result = $cache->set('a','zh中午',2);
+        jsonResponse([$result]);
     }
 
+
+    /**
+     * 获取缓存
+     */
+    public function getAction(){
+        $cache = \Jeemu\Dispatcher::getInstance()->getCache('file');
+        jsonResponse([$cache->get('a')]);
+    }
+
+    /**
+     * 删除单个
+     */
+    public function delAction(){
+        $cache = \Jeemu\Dispatcher::getInstance()->getCache('file');
+        jsonResponse([$cache->delete('a')]);
+    }
+
+    /**
+     * 清除缓存-所有的缓存
+     */
     public function clearAction(){
         \Jeemu\Dispatcher::getInstance()->getCache('file')->clear();
         jsonResponse();

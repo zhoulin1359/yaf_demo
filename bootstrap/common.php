@@ -40,7 +40,7 @@ function conf(string $conf, $default = null)
  * @param int $status
  * @param string $info
  */
-function jsonResponse(array $data = [], int $status = 1, string $msg = 'success', Yaf\Response_Abstract $response = null)
+function jsonResponse(array $data = [], int $status = 1, string $msg = 'success', Yaf\Response_Abstract $response = null): bool
 {
     if (empty($response)) {
         $response = new Yaf\Response\Http();
@@ -49,6 +49,7 @@ function jsonResponse(array $data = [], int $status = 1, string $msg = 'success'
     $obj->setData($data);
     $obj->setStatus($status);
     $obj->setMsg($msg);
+    return true;
 }
 
 
@@ -95,15 +96,15 @@ function randStr(int $len = 8)
  * @param $path
  * @throws Exception
  */
-function createPath($path)
+function createPath($path, $mode = 0755)
 {
     if (!is_dir($path)) {
-        if (!mkdir($path, 0755, true)) {
+        if (!mkdir($path, $mode, true)) {
             throw new \Exception('创建目录失败', -1);
         }
     } else {
         if (substr(sprintf('%o', fileperms($path)), -4) != '0755') {
-            if (!chmod($path, 0755)) {
+            if (!chmod($path, $mode)) {
                 throw new \Exception('目录权限错误', -1);
             }
         }

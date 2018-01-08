@@ -19,7 +19,7 @@ class Bootstrap extends Yaf\Bootstrap_Abstract
         Yaf\Dispatcher::getInstance()->disableView();   //关闭自动调用引擎render方法；
         Yaf\Dispatcher::getInstance()->returnResponse(true);   //对象在分发完成以后不会自动输出给请求端, 而是交给程序员自己控制输出
 
-        Yaf\Loader::getInstance()->registerLocalNamespace(array("Db", "Bar"));  //注册本地类前缀
+        Yaf\Loader::getInstance()->registerLocalNamespace(array("Test"));  //注册本地类前缀
     }
 
     /**

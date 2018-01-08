@@ -13,10 +13,7 @@ class IndexController extends Yaf\Controller_Abstract
     public function indexAction()
     {
         return jsonResponse($_SERVER);
-        throw new ErrorException('sss',1);
-       // die;
-        //$route = new Yaf\Route_Simple("m", "controller", "act");
-        //jsonResponse($_SERVER);
+
     }
 
     public function phpInfoAction(){
@@ -32,20 +29,5 @@ class IndexController extends Yaf\Controller_Abstract
     public function autoloadAction()
     {
         jsonResponse($this->getResponse(),[Test_Test::hello()]);
-    }
-
-    /**
-     * 获取自定义配置项
-     */
-    public function confAction(){
-        jsonResponse($this->getResponse(),[conf('redis'),conf('as')]);
-        jsonResponse($this->getResponse(),[conf('11'),conf('as')]);
-    }
-
-
-
-    public function responseAction(){
-        $this->getResponse()->setHeader('Content-Type','application/json;charset=utf-8');
-        return $this->getResponse()->setBody("Hello World");
     }
 }

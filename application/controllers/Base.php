@@ -8,5 +8,7 @@
  */
 class BaseController extends Yaf\Controller_Abstract
 {
-
+    protected function init(){
+        //初始化方法
+    }
 }

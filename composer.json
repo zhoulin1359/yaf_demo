@@ -18,6 +18,7 @@
         "jeemu/test/src/Obj"
       ],
       "Jeemu\\Db\\": "jeemu/db/src/Driver",
+      "Jeemu\\Db\\Connect\\": "jeemu/db/src/Connect",
       "Jeemu\\Cache\\": "jeemu/cache/src/Driver"
     }
   }

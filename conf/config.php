@@ -15,11 +15,25 @@ return array(
         //'auth' => '123456',
         'select' => 1
     ),
+    //Redis缓存配置
+    'redis_cache' => array(
+        'host' => '172.17.0.3',
+        'port' => 6379,
+        //'auth' => '123456',
+        'select' => 2
+    ),
+    //Redis日志配置
+    'redis_log' => array(
+        'host' => '172.17.0.3',
+        'port' => 6379,
+        //'auth' => '123456',
+        'select' => 3
+    ),
     //数据库
     'db' => [
         // required
         'database_type' => 'mysql',
-        'database_name' => 'history_base',
+        'database_name' => 'test',
         'server' => '172.17.0.4',
         'username' => 'root',
         'password' => '123456',
@@ -29,7 +43,7 @@ return array(
         'port' => 3306,
 
         // [optional] Table prefix
-        'prefix' => '',
+        'prefix' => 'test_',
 
         // [optional] Enable logging (Logging is disabled by default for better performance)
         'logging' => true
