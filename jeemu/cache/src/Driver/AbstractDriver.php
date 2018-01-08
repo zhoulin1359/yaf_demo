@@ -16,7 +16,7 @@ abstract class AbstractDriver
 
     abstract public function set(string $key, $value,int $ttl):bool ;
 
-    abstract public function get(string $key);
+    abstract public function get(string $key) ;
 
     abstract public function delete(string $key):bool;
 

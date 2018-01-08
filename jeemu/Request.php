@@ -16,6 +16,7 @@ class Request
     private $body;
     private $method;
     private $requsetHandle;
+    private $openBody = false;
     public function __construct()
     {
         $this->requsetHandle =  \Yaf\Dispatcher::getInstance()->getRequest();
@@ -23,7 +24,9 @@ class Request
         $this->quest = \GUMP::xss_clean($this->requsetHandle->getQuery());
         if ($this->method == 'POST'){
             $this->post = \GUMP::xss_clean($this->requsetHandle->getPost());
-            $this->body = \GUMP::xss_clean(json_decode(file_get_contents('php://input'),true));
+            if ($this->openBody){
+                $this->body = \GUMP::xss_clean(json_decode(file_get_contents('php://input'),true));
+            }
         }
 
     }

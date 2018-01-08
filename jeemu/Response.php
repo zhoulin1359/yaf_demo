@@ -20,11 +20,7 @@ class Response implements \Psr\Http\Message\ResponseInterface
     public function __construct(\Yaf\Response\Http $response)
     {
         $this->response = $response;
-        $this->response->setHeader('Content-Type', 'application/json;charset=utf-8');
-        $this->response->setHeader('Access-Control-Allow-Origin', '*');
-        $this->response->setHeader('Access-Control-Allow-Credentials', 'true'); //允许cookie
-        $this->response->setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-        $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT');
+
     }
 
     public function withStatus($code, $reasonPhrase = '')
@@ -120,8 +116,19 @@ class Response implements \Psr\Http\Message\ResponseInterface
         $this->msg = $msg;
     }
 
+    private function setHeader(){
+        $this->response->setHeader('Content-Type', 'application/json;charset=utf-8');
+        $this->response->setHeader('Access-Control-Allow-Origin', '*');
+        $this->response->setHeader('Access-Control-Allow-Credentials', 'true'); //允许cookie
+        $this->response->setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+        $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT');
+    }
+
     public function __destruct()
     {
+        if (!headers_sent()){
+            $this->setHeader();
+        }
         $this->response->clearBody();
         $callback = getRequestQuery('callback');
         if ($callback) {

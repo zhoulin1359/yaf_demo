@@ -34,7 +34,7 @@ class Log
     private $driveHandle;
 
 
-    public function __construct(string $driver = 'redis', string $path = './runtime', string $type = 'date', int $timeOur = 0)
+    public function __construct(string $driver = 'redis', string $path = '../runtime/log', string $type = 'date', int $timeOur = 0)
     {
         switch ($driver){
             case 'file':

@@ -4,7 +4,7 @@ declare(strict_types=1);
  * Created by PhpStorm.
  * User: JeemuZhou
  * Date: 2017/11/14
- * Time: 17:10
+ * Time: 20:32
  */
 
 namespace Jeemu\Log\Handle;
@@ -12,25 +12,16 @@ namespace Jeemu\Log\Handle;
 
 class File extends AbstractHandler
 {
-
     private $path;
-    private $handle;
-    public function __construct(string $path = './runtime', string $pathType = 'date')
-    {
-        $this->initPath($path);
-        $this->path = $path;
-        $fileName = $this->getPath($pathType);
-        $this->handle = fopen($this->path . $fileName, 'a');
-        if (!$this->handle) {
-            throw new \Exception('打开日志文件出错', -1);
-        }
-    }
+    private $fileName;
 
-    public function saveLog(string $content): bool
+    public function __construct($path)
     {
-        return (fwrite($this->handle, $content."\r\n") !== false) ? true : false;
+        $path = pathinfo($path);
+        $this->initPath($path['dirname']);
+        $this->path = $path['dirname'];
+        $this->fileName = $path['basename'];
     }
-
 
     private function initPath($path)
     {
@@ -48,4 +39,9 @@ class File extends AbstractHandler
 
     }
 
+
+    public function saveLog(string $content): bool
+    {
+        return error_log($content . "\r\n", 3, $this->path.'/'.$this->fileName);
+    }
 }

@@ -4,25 +4,33 @@ declare(strict_types=1);
  * Created by PhpStorm.
  * User: JeemuZhou
  * Date: 2017/11/14
- * Time: 20:32
+ * Time: 17:10
  */
 
 namespace Jeemu\Log\Handle;
 
 
-class ErrLog extends AbstractHandler
+class File extends AbstractHandler
 {
+
     private $path;
-    private $fileName;
-
-    public function __construct($path)
+    private $handle;
+    public function __construct(string $path = './runtime', string $pathType = 'date')
     {
-        $path = pathinfo($path);
-        $this->initPath($path['dirname']);
-        $this->path = $path['dirname'];
-        $this->fileName = $path['basename'];
-
+        $this->initPath($path);
+        $this->path = $path;
+        $fileName = $this->getPath($pathType);
+        $this->handle = fopen($this->path . $fileName, 'a');
+        if (!$this->handle) {
+            throw new \Exception('打开日志文件出错', -1);
+        }
     }
+
+    public function saveLog(string $content): bool
+    {
+        return (fwrite($this->handle, $content."\r\n") !== false) ? true : false;
+    }
+
 
     private function initPath($path)
     {
@@ -40,10 +48,4 @@ class ErrLog extends AbstractHandler
 
     }
 
-
-    public function saveLog(string $content): bool
-    {
-        // TODO: Implement saveLog() method.
-        return error_log($content . "\r\n", 3, $this->path.'/'.$this->fileName);
-    }
 }

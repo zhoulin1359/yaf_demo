@@ -21,7 +21,7 @@ class Redis extends AbstractHandler
 
     public function __construct(string $path, int $timeOut = 0)
     {
-        $this->driverHandle = Dispatcher::getInstance()->getRedis();
+        $this->driverHandle = Dispatcher::getInstance()->getRedis('redis_log');
         $this->driverHandle->select(3);
         if ($timeOut) {
             $this->timeOut = $timeOut;

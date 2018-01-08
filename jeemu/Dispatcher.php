@@ -39,16 +39,16 @@ class Dispatcher
     }
 
 
-    public function getRedis(): \Redis
+    public function getRedis(string $conf): \Redis
     {
-        if (empty(self::$obj[__FUNCTION__])) {
-            self::$obj[__FUNCTION__] = (new Db\Redis())->getObj();
+        if (empty(self::$obj[__FUNCTION__][$conf])) {
+            self::$obj[__FUNCTION__][$conf] = (new Db\Redis(conf($conf)))->getObj();
         }
-        return self::$obj[__FUNCTION__];
+        return self::$obj[__FUNCTION__][$conf];
     }
 
 
-    public function getLog(string $driver = 'redis', string $path = './runtime', string $type = 'date', int $timeOur = 0): Log
+    public function getLog(string $driver = 'redis', string $path = APP_PATH . '/runtime/log', string $type = 'date', int $timeOur = 0): Log
     {
         if (empty(self::$obj[__FUNCTION__])) {
             self::$obj[__FUNCTION__] = new Log($driver, $path, $type, $timeOur);
@@ -57,7 +57,7 @@ class Dispatcher
     }
 
 
-    public function getCache(string $driver = 'file'):Cache
+    public function getCache(string $driver = 'file'): Cache
     {
         if (empty(self::$obj[__FUNCTION__])) {
             self::$obj[__FUNCTION__] = new Cache($driver);
@@ -66,7 +66,7 @@ class Dispatcher
     }
 
 
-    public function getRequest():Request
+    public function getRequest(): Request
     {
         if (empty(self::$obj[__FUNCTION__])) {
             self::$obj[__FUNCTION__] = new Request();
@@ -75,9 +75,19 @@ class Dispatcher
     }
 
 
-    public function getResponse($respons):Response{
+    public function getResponse($respons): Response
+    {
         if (empty(self::$obj[__FUNCTION__])) {
             self::$obj[__FUNCTION__] = new Response($respons);
+        }
+        return self::$obj[__FUNCTION__];
+    }
+
+
+    public function getUpload($file, string $path = ''): Upload
+    {
+        if (empty(self::$obj[__FUNCTION__])) {
+            self::$obj[__FUNCTION__] = new Upload($file, $path);
         }
         return self::$obj[__FUNCTION__];
     }

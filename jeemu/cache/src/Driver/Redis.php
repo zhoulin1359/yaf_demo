@@ -19,7 +19,7 @@ class Redis extends AbstractDriver
 
     public function __construct()
     {
-        $this->redisConn = Dispatcher::getInstance()->getRedis();
+        $this->redisConn = Dispatcher::getInstance()->getRedis('redis_cache');
         $this->redisConn->select(4);
         $this->redisConn->setOption(\Redis::OPT_SERIALIZER, (string)\Redis::SERIALIZER_PHP); //序列化
     }

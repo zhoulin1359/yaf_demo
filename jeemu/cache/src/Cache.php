@@ -37,7 +37,7 @@ class Cache implements \Psr\SimpleCache\CacheInterface
 
     public function set($key, $value, $ttl = null)
     {
-        $this->driverHandle->set($this->initKey((string)$key),$value, (int)$ttl);
+        return $this->driverHandle->set($this->initKey((string)$key),$value, (int)$ttl);
         // TODO: Implement set() method.
     }
 

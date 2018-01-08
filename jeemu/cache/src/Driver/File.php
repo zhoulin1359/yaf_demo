@@ -14,7 +14,7 @@ class File extends AbstractDriver
 {
     private $path;
 
-    public function __construct($path = './runtime/cache')
+    public function __construct($path = '../runtime/cache')
     {
         createPath($path);
         $this->path = $path;
